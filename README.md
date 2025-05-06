@@ -6,14 +6,14 @@ for Bloodhound provided by [SpectreOps](https://bloodhound.specterops.io/get-sta
 ## Requirements
 
 - An Entra app registration, with the following permissions:
-  - Microsoft Graph: Directory.Read.All
-  - Entra: Directory Reader
-  - Azure: Reader (On all Subscriptions, or more easily the Root Management Group)
+  - Microsoft Graph: `Directory.Read.All`
+  - Entra: `Directory Reader`
+  - Azure: `Reader` (On all Subscriptions, or more easily the Root Management Group)
 - You will need to set the following environment variables in your system,
     or set them in a `.env` file in this repo:
-  - AZURE_CLIENT_ID
-  - AZURE_CLIENT_SECRET
-  - AZURE_TENANT_ID
+  - `AZURE_CLIENT_ID`
+  - `AZURE_CLIENT_SECRET`
+  - `AZURE_TENANT_ID`
 - Docker or Docker Desktop
 
 ## Getting Started
@@ -39,7 +39,7 @@ _Note: if you have not already, setup your .env file
       - BLOODHOUND_TOKEN_KEY=<YOUR TOKEN KEY HERE>
       - BLOODHOUND_TOKEN_ID=<YOUR TOKEN ID HERE>
       - BLOODHOUND_ENDPOINT=http://bh-docker-win-bloodhound-1:8080
-    ```
+```
 
 7. Execute `docker compose down` and then `docker compose up -d`
 8. After a minute or so, the `azurehound` container should exit having uploaded
