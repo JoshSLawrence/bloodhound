@@ -24,20 +24,19 @@ for Bloodhound provided by [SpectreOps](https://bloodhound.specterops.io/get-sta
 4. Login as `admin`, the default password can be found in `bloodhound.config.json`
 5. Create a new user and generate an api key and id, see:
     [Create a non-personal API key/ID pair](https://bloodhound.specterops.io/integrations/bloodhound-api/working-with-api#create-a-non-personal-api-key%2Fid-pair).
-6. Update the Docker compose azurehound service with your api key and id:
-
-_Note: if you have not already, setup your .env file
-    as outlined in the [Requirements](#requirements) section_
+6. Update the Docker compose azurehound service environment variables:
 
 ```yml
   azurehound:
     build: .
     environment:
+    # Swap the right-side of the = for your values as needed
+    # or just use a .env file / local system enviroment variables
       - AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
       - AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
       - AZURE_TENANT_ID=${AZURE_TENANT_ID}
-      - BLOODHOUND_TOKEN_KEY=<YOUR TOKEN KEY HERE>
-      - BLOODHOUND_TOKEN_ID=<YOUR TOKEN ID HERE>
+      - BLOODHOUND_TOKEN_KEY=${BLOODHOUND_TOKEN_KEY}
+      - BLOODHOUND_TOKEN_ID=${BLOODHOUND_TOKEN_ID}
       - BLOODHOUND_ENDPOINT=http://bh-docker-win-bloodhound-1:8080
 ```
 
@@ -59,7 +58,6 @@ To wipe the database, the easiest way is to delete the neo4j volume defined by d
 2. List the volumes via `docker volume ls`
 3. Identity the neo4j volume, it should be named `bh-docker-win_neo4j-data`
 4. Remove the volume by executing `docker volume rm bh-docker-win_neo4j-data`
-  - Swap out "bh-docker-win_neo4j-data" in the command for your name as needed
 5. Execute `docker compose up -d` to spin up the containers
 
 Docker will recreate the neo4j volume, and shortly after the `azurehound` container
