@@ -10,7 +10,7 @@ fi
     -a $AZURE_CLIENT_ID \
     -s $AZURE_CLIENT_SECRET \
     -t $AZURE_TENANT_ID  \
-    -o "output.json"
+    -o "output/azurehound.json"
 
 source .venv/bin/activate
 

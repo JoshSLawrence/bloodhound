@@ -1,2 +1,11 @@
+output/*
 .env
 .venv/
+
+build/
+*.egg-info
+dist/
+*.pyc
+*.csv
+*.json
+*.zip

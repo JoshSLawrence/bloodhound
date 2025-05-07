@@ -1,7 +1,13 @@
 # Bloodhound
 
-This repo is an implementation of the Docker compose deployment method
+This project is an implementation of the Docker compose deployment method
 for Bloodhound provided by [SpectreOps](https://bloodhound.specterops.io/get-started/quickstart/community-edition-quickstart).
+
+This project also implements collection and ingestion via:
+
+- [AzureHound](https://github.com/SpecterOps/AzureHound)
+- [BloodHound.py](https://github.com/dirkjanm/BloodHound.py)
+- and custom scripts
 
 ## Requirements
 

@@ -7,6 +7,7 @@ from typing import Optional
 import argparse
 import os
 import json
+import glob
 
 
 class BloodhoundClient:
@@ -63,13 +64,6 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
-        "-f",
-        "--file",
-        help="azurehound JSON file to ingest",
-        default="output.json",
-    )
-
-    parser.add_argument(
         "-e",
         "--endpoint",
         help="Bloodhound endpoint",
@@ -78,38 +72,48 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    if not os.path.isfile(args.file):
-        raise Exception(f"File '{args.file}' does not exist or is not a file.")
-
     client = BloodhoundClient(
         args.token_key,
         args.token_id,
         args.endpoint,
     )
 
-    print("Creating bloodhound file-upload job...")
+    files = glob.glob("output/*.json")
 
-    response = client.request("POST", "/api/v2/file-upload/start")
+    for file in files:
+        print("Creating bloodhound file-upload job...")
 
-    if response.status_code != 201:
-        print(response.status_code)
-        print(response.content)
-        raise Exception("Received non-OK response when making API request")
+        try:
+            with open(file, "r") as f:
+                data = json.load(f)
+        except:
+            print(f"Malformed JSON detected for file: {file} ...skipping")
+            continue
 
-    upload_job_id = response.json()["data"]["id"]
+        response = client.request("POST", "/api/v2/file-upload/start")
 
-    with open(args.file, "r") as file:
-        data = json.load(file)
+        if response.status_code != 201:
+            print(response.status_code)
+            print(response.content)
+            raise Exception("Received non-OK response when making API request")
 
-    print("Uploading data set to bloodhound...")
+        upload_job_id = response.json()["data"]["id"]
 
-    response = client.request(
-        "POST", f"/api/v2/file-upload/{upload_job_id}", json.dumps(data).encode("utf-8")
-    )
+        print("Uploading data set to bloodhound...")
 
-    if response.status_code != 202:
-        print(response.status_code)
-        print(response.content)
-        raise Exception("Received non-OK response when making API request")
+        response = client.request(
+            "POST",
+            f"/api/v2/file-upload/{upload_job_id}",
+            json.dumps(data).encode("utf-8"),
+        )
 
-    print("Data set successfully uploaded to bloodhound")
+        if response.status_code != 202:
+            print(response.status_code)
+            print(response.content)
+            raise Exception("Received non-OK response when making API request")
+
+        os.remove(file)
+
+        print("Data set successfully uploaded to bloodhound")
+
+    print("Done")

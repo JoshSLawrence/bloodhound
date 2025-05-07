@@ -67,14 +67,21 @@ services:
         condition: service_healthy
 
   azurehound:
-    build: .
+    build: ./azurehound
     environment:
-      - AZURE_CLIENT_ID=${AZURE_CLIENT_ID}
-      - AZURE_CLIENT_SECRET=${AZURE_CLIENT_SECRET}
-      - AZURE_TENANT_ID=${AZURE_TENANT_ID}
+      - AZURE_CLIENT_ID=${AZUREHOUND_CLIENT_ID}
+      - AZURE_CLIENT_SECRET=${AZUREHOUND_CLIENT_SECRET}
+      - AZURE_TENANT_ID=${AZUREHOUND_TENANT_ID}
       - BLOODHOUND_TOKEN_KEY=${BLOODHOUND_TOKEN_KEY}
       - BLOODHOUND_TOKEN_ID=${BLOODHOUND_TOKEN_ID}
-      - BLOODHOUND_ENDPOINT=http://bh-docker-win-bloodhound-1:8080
+      - BLOODHOUND_ENDPOINT=http://bloodhound-bloodhound-1:8080
+    volumes:
+      - ./output:/app/output
+
+  bhpy:
+    build: ./bloodhoundpy
+    volumes:
+      - ./output:/bloodhound-data
 
 volumes:
   neo4j-data:
