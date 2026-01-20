@@ -2,9 +2,13 @@
 
 cd "$(dirname "$0")"
 
-if [ -f "output.json" ]; then
-    rm "output.json"
+if [ -f "output/azurehound.json" ]; then
+    rm "output/azurehound.json"
 fi
+
+echo "id $AZUREHOUND_CLIENT_ID"
+echo "secret $AZUREHOUND_CLIENT_SECRET"
+echo "tenant $AZUREHOUND_TENANT_ID"
 
 ./azurehound list \
     -a $AZURE_CLIENT_ID \

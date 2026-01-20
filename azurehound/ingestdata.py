@@ -78,6 +78,8 @@ if __name__ == "__main__":
         args.endpoint,
     )
 
+    print("Fetching files for upload")
+
     files = glob.glob("output/*.json")
 
     for file in files:
