@@ -11,7 +11,7 @@ for Bloodhound provided by [SpectreOps](https://bloodhound.specterops.io/get-sta
   - Azure: `Reader` (On all Subscriptions you wish to audit, or more
     easily the Root Management Group)
 - You will need to set the following environment variables in a `.env` file
-    in this repo:
+  in this repo:
   - `AZURE_CLIENT_ID`
   - `AZURE_CLIENT_SECRET`
   - `AZURE_TENANT_ID`
@@ -27,11 +27,11 @@ for Bloodhound provided by [SpectreOps](https://bloodhound.specterops.io/get-sta
    - `AZURE_CLIENT_SECRET`
    - `AZURE_TENANT_ID`
 3. Execute `docker compose up -d` to start the Bloodhound services (app-db,
-    graph-db, and bloodhound)
+   graph-db, and bloodhound)
 4. Access the bloodhound instance at `http://localhost:8080/ui/login`
 5. Login as `admin`, the default password can be found in `bloodhound.config.json`
 6. Create a new user (optional) and generate an API key and ID, see:
-    [Create a non-personal API key/ID pair](https://bloodhound.specterops.io/integrations/bloodhound-api/working-with-api#create-a-non-personal-api-key%2Fid-pair).
+   [Create a non-personal API key/ID pair](https://bloodhound.specterops.io/integrations/bloodhound-api/working-with-api#create-a-non-personal-api-key%2Fid-pair).
 7. Add the following environment variables to your `.env` file:
    - `BLOODHOUND_TOKEN_KEY` (the API key you generated)
    - `BLOODHOUND_TOKEN_ID` (the API ID you generated)
@@ -64,13 +64,13 @@ To refresh the data with current information from Azure/Entra:
 
 ### Wiping the database
 
-To completely wipe the database and start fresh, delete the neo4j volume:
+To completely wipe the database and start fresh, delete the neo4j volume. The
+easiest way is to take down the compose project _with_ the volumes. This will
+delete the volumes creates by compose alongside the containers. Then simply run
+compose again.
 
-1. Execute `docker compose down`
-2. List the volumes via `docker volume ls`
-3. Identify the neo4j volume (should be named `bloodhound_neo4j-data`)
-4. Remove the volume by executing `docker volume rm bloodhound_neo4j-data`
-5. Execute `docker compose up -d` to spin up the containers
+1. Execute `docker compose down --volumes`
+2. Execute `docker compose up -d` to spin up the containers
 
 Docker will recreate the neo4j volume, and the `azurehound` container will fetch
 fresh data from your Entra and Azure environments and upload it to your Bloodhound
